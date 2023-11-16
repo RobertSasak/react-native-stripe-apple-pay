@@ -1,5 +1,23 @@
+import Foundation
+import PassKit
+import StripeApplePay
+
 @objc(StripeApplePay)
-class StripeApplePay: NSObject {
+class StripeApplePay: NSObject, ApplePayContextDelegate {
+  public func applePayContext(
+    _ context: STPApplePayContext,
+    didCreatePaymentMethod paymentMethod: StripeCore.StripeAPI.PaymentMethod,
+    paymentInformation: PKPayment, completion: @escaping STPIntentClientSecretCompletionBlock
+  ) {
+
+  }
+
+  public func applePayContext(
+    _ context: STPApplePayContext, didCompleteWith status: STPApplePayContext.PaymentStatus,
+    error: Error?
+  ) {
+
+  }
 
   @objc(multiply:withB:withResolver:withRejecter:)
   func multiply(
@@ -19,6 +37,44 @@ class StripeApplePay: NSObject {
     resolve: RCTPromiseResolveBlock,
     reject: RCTPromiseRejectBlock
   ) {
+    // Configure a payment request
+    let pr = StripeAPI.paymentRequest(
+      withMerchantIdentifier: merchantIdentifier, country: country,
+      currency: currency)
+
+    // You'd generally want to configure at least `.postalAddress` here.
+    // We don't require anything here, as we don't want to enter an address
+    // in CI.
+    pr.requiredShippingContactFields = []
+    pr.requiredBillingContactFields = []
+
+    // Configure shipping methods
+    let firstClassShipping = PKShippingMethod(
+      label: "First Class Mail", amount: NSDecimalNumber(string: "10.99"))
+    firstClassShipping.detail = "Arrives in 3-5 days"
+    firstClassShipping.identifier = "firstclass"
+    let rocketRidesShipping = PKShippingMethod(
+      label: "Rocket Rides courier", amount: NSDecimalNumber(string: "10.99"))
+    rocketRidesShipping.detail = "Arrives in 1-2 hours"
+    rocketRidesShipping.identifier = "rocketrides"
+    pr.shippingMethods = [
+      firstClassShipping,
+      rocketRidesShipping,
+    ]
+
+    // Build payment summary items
+    // (You'll generally want to configure these based on the selected address and shipping method.
+    pr.paymentSummaryItems = [
+      PKPaymentSummaryItem(label: "A very nice computer", amount: NSDecimalNumber(string: "19.99")),
+      PKPaymentSummaryItem(label: "Shipping", amount: NSDecimalNumber(string: "10.99")),
+      PKPaymentSummaryItem(label: "Stripe Computer Shop", amount: NSDecimalNumber(string: "29.99")),
+    ]
+
+    // Present the Apple Pay Context:
+    //    self.confirmApplePayResolver = resolve
+    let applePayContext = STPApplePayContext(paymentRequest: pr, delegate: self)
+    applePayContext?.presentApplePay()
     resolve(merchantIdentifier + " " + country + " " + currency)
   }
+
 }
