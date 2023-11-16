@@ -14,7 +14,11 @@ export default function App() {
     <View style={styles.container}>
       <Text>Result: {result}</Text>
       <Button
-        onPress={() => pay(4, 6).then(console.warn).catch(console.warn)}
+        onPress={() =>
+          pay('merchant.com.app', 'NO', 'NOK')
+            .then(console.warn)
+            .catch(console.warn)
+        }
         title="Pay with Apple Pay"
       />
     </View>
