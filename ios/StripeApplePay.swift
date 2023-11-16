@@ -4,20 +4,9 @@ import StripeApplePay
 
 @objc(StripeApplePay)
 class StripeApplePay: NSObject, ApplePayContextDelegate {
-  public func applePayContext(
-    _ context: STPApplePayContext,
-    didCreatePaymentMethod paymentMethod: StripeCore.StripeAPI.PaymentMethod,
-    paymentInformation: PKPayment, completion: @escaping STPIntentClientSecretCompletionBlock
-  ) {
 
-  }
-
-  public func applePayContext(
-    _ context: STPApplePayContext, didCompleteWith status: STPApplePayContext.PaymentStatus,
-    error: Error?
-  ) {
-
-  }
+  var resolve: RCTPromiseResolveBlock? = nil
+  var reject: RCTPromiseRejectBlock? = nil
 
   @objc(multiply:withB:withResolver:withRejecter:)
   func multiply(
@@ -34,10 +23,12 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
     merchantIdentifier: String,
     country: String,
     currency: String,
-    resolve: RCTPromiseResolveBlock,
-    reject: RCTPromiseRejectBlock
+    resolve: @escaping RCTPromiseResolveBlock,
+    reject: @escaping RCTPromiseRejectBlock
   ) {
-    // Configure a payment request
+    self.resolve = resolve
+    self.reject = reject
+
     let pr = StripeAPI.paymentRequest(
       withMerchantIdentifier: merchantIdentifier, country: country,
       currency: currency)
@@ -71,10 +62,23 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
     ]
 
     // Present the Apple Pay Context:
-    //    self.confirmApplePayResolver = resolve
     let applePayContext = STPApplePayContext(paymentRequest: pr, delegate: self)
     applePayContext?.presentApplePay()
-    resolve(merchantIdentifier + " " + country + " " + currency)
+  }
+
+  public func applePayContext(
+    _ context: STPApplePayContext,
+    didCreatePaymentMethod paymentMethod: StripeCore.StripeAPI.PaymentMethod,
+    paymentInformation: PKPayment, completion: @escaping STPIntentClientSecretCompletionBlock
+  ) {
+    resolve!("done")
+  }
+
+  public func applePayContext(
+    _ context: STPApplePayContext, didCompleteWith status: STPApplePayContext.PaymentStatus,
+    error: Error?
+  ) {
+    resolve!("done2")
   }
 
 }
