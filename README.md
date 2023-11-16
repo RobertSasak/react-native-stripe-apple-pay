@@ -1,6 +1,11 @@
+
 # react-native-stripe-apple-pay
 
 React Native wrapper around Stripe Apple Pay. Currently there are very limited configuration options. Feel free to open a PR to add more.
+
+<p align="center">
+  <img src="https://github.com/RobertSasak/react-native-stripe-apple-pay/assets/281281/ff84d472-e5ca-4cdc-ac79-c09e2dac1499" />
+</p>
 
 ## Installation
 
