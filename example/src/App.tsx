@@ -1,18 +1,11 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, Button, Alert } from 'react-native';
-import { multiply, pay } from 'react-native-stripe-apple-pay';
+import { StyleSheet, View, Button, Alert } from 'react-native';
+import { pay } from 'react-native-stripe-apple-pay';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
       <Button
         onPress={async () => {
           // You need to get clientSecret from your server
@@ -36,6 +29,7 @@ export default function App() {
               merchantIdentifier,
               country,
               currency,
+              amount,
             } = await response.json();
 
             pay(
@@ -43,7 +37,8 @@ export default function App() {
               clientSecret,
               merchantIdentifier,
               country,
-              currency
+              currency,
+              amount
             )
               .then(() => Alert.alert('Success'))
               .catch((error) => {

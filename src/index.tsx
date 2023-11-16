@@ -17,22 +17,20 @@ const StripeApplePay = NativeModules.StripeApplePay
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return StripeApplePay.multiply(a, b);
-}
-
 export function pay(
   publishableKey: String,
   clientSecret: String,
   merchantIdentifier: string,
   country: string,
-  currency: string
+  currency: string,
+  amount: string
 ): Promise<string> {
   return StripeApplePay.pay(
     publishableKey,
     clientSecret,
     merchantIdentifier,
     country,
-    currency
+    currency,
+    amount
   );
 }

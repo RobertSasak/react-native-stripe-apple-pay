@@ -11,7 +11,7 @@ const amount = 100;
 
 if (!secretKey) {
   const error =
-    'You must set the PUBLISHABLE_KEY environment variable.\nexport SECRET_KEY=<your publishable key>\nor\nSECRET_KEY=<your publishable key> yarn start';
+    'You must set the SECRET_KEY environment variable.\nexport SECRET_KEY=<your publishable key>\nor\nSECRET_KEY=<your publishable key> yarn start';
   console.error(error);
   throw new Error(error);
 }
@@ -37,6 +37,7 @@ app.post('/create-payment-intent', async (req, res) => {
     clientSecret: paymentIntent.client_secret,
     country,
     currency,
+    amount: `${amount / 100}`,
   });
   console.log('Payment intent created');
 });

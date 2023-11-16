@@ -9,18 +9,9 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
   var resolve: RCTPromiseResolveBlock? = nil
   var reject: RCTPromiseRejectBlock? = nil
 
-  @objc(multiply:withB:withResolver:withRejecter:)
-  func multiply(
-    a: Float,
-    b: Float,
-    resolve: RCTPromiseResolveBlock,
-    reject: RCTPromiseRejectBlock
-  ) {
-    resolve(a * b)
-  }
-
   @objc(
-    pay:withClientSecret:withMerchantIdentifier:withCountry:withCurrency:withResolver:withRejecter:
+    pay:withClientSecret:withMerchantIdentifier:withCountry:withCurrency:withAmount:withResolver:
+    withRejecter:
   )
   func pay(
     publishableKey: String,
@@ -28,6 +19,7 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
     merchantIdentifier: String,
     country: String,
     currency: String,
+    amount: String,
     resolve: @escaping RCTPromiseResolveBlock,
     reject: @escaping RCTPromiseRejectBlock
   ) {
@@ -43,7 +35,7 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
 
     pr.requiredBillingContactFields = []
     pr.paymentSummaryItems = [
-      PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(string: "29.99"))
+      PKPaymentSummaryItem(label: "Total", amount: NSDecimalNumber(string: amount))
     ]
 
     let applePayContext = STPApplePayContext(paymentRequest: pr, delegate: self)

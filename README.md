@@ -1,22 +1,44 @@
 # react-native-stripe-apple-pay
 
-React Native wrapper around Stripe Apple Pay
+React Native wrapper around Stripe Apple Pay. Currently there are very limited configuration options. Feel free to open a PR to add more.
 
 ## Installation
 
 ```sh
-npm install react-native-stripe-apple-pay
+yarn add install react-native-stripe-apple-pay
+```
+
+## Testing
+
+Before including this library in your project you can test it by running the example app and example server.
+
+### Install dependencies
+
+```sh
+yarn
+```
+
+### Run server
+
+```sh
+export SECRET_KEY=sk_test_...
+export PUBLISHABLE_KEY=pk_test_...
+yarn server
+# or
+SECRET_KEY=sk_test_... PUBLISHABLE_KEY=pk_test_... yarn server
+```
+
+### Run example app
+
+```sh
+yarn example ios
+# or select a simulator
+yarn example ios --simulator "iPhone 15 Pro Max"
 ```
 
 ## Usage
 
-```js
-import { multiply } from 'react-native-stripe-apple-pay';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+See example and server folder.
 
 ## Contributing
 
