@@ -26,6 +26,8 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
     resolve: @escaping RCTPromiseResolveBlock,
     reject: @escaping RCTPromiseRejectBlock
   ) {
+    StripeAPI.defaultPublishableKey = "pk_test_5"
+              
     self.resolve = resolve
     self.reject = reject
 
@@ -78,7 +80,17 @@ class StripeApplePay: NSObject, ApplePayContextDelegate {
     _ context: STPApplePayContext, didCompleteWith status: STPApplePayContext.PaymentStatus,
     error: Error?
   ) {
-    resolve!("done2")
+    switch status {
+    case .success:
+      resolve!("success")
+      break
+    case .error:
+      reject!(error?.localizedDescription, error.debugDescription, nil)
+      break
+    case .userCancellation:
+      reject!("cancelled-by-user", "Payment cancelled by user", nil)
+      break
+    }
   }
 
 }
