@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-stripe-apple-pay';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { multiply, pay } from 'react-native-stripe-apple-pay';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
@@ -13,6 +13,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Result: {result}</Text>
+      <Button
+        onPress={() => pay(4, 6).then(console.warn).catch(console.warn)}
+        title="Pay with Apple Pay"
+      />
     </View>
   );
 }
