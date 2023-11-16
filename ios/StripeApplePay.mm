@@ -7,7 +7,9 @@ RCT_EXTERN_METHOD(multiply:(float)a
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
-RCT_EXTERN_METHOD(pay:(NSString *)merchantIdentifier 
+RCT_EXTERN_METHOD(pay:(NSString *)publishableKey 
+                 withClientSecret:(NSString *)clientSecret 
+                 withMerchantIdentifier:(NSString *)merchantIdentifier 
                  withCountry:(NSString *)country 
                  withCurrency:(NSString *)currency
                  withResolver:(RCTPromiseResolveBlock)resolve

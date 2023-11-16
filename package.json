@@ -26,6 +26,7 @@
     "!**/.*"
   ],
   "scripts": {
+    "server": "cd server && yarn start",
     "example": "yarn workspace react-native-stripe-apple-pay-example",
     "test": "jest",
     "typecheck": "tsc --noEmit",
@@ -80,7 +81,8 @@
     "react-native": "*"
   },
   "workspaces": [
-    "example"
+    "example",
+    "server"
   ],
   "packageManager": "yarn@3.6.1",
   "engines": {

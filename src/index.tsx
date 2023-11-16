@@ -22,9 +22,17 @@ export function multiply(a: number, b: number): Promise<number> {
 }
 
 export function pay(
+  publishableKey: String,
+  clientSecret: String,
   merchantIdentifier: string,
   country: string,
   currency: string
 ): Promise<string> {
-  return StripeApplePay.pay(merchantIdentifier, country, currency);
+  return StripeApplePay.pay(
+    publishableKey,
+    clientSecret,
+    merchantIdentifier,
+    country,
+    currency
+  );
 }
