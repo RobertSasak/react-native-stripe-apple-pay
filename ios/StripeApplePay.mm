@@ -2,6 +2,9 @@
 
 @interface RCT_EXTERN_MODULE(StripeApplePay, NSObject)
 
+RCT_EXTERN_METHOD(deviceSupportsApplePay:(RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
+
 RCT_EXTERN_METHOD(pay:(NSString *)publishableKey 
                  withClientSecret:(NSString *)clientSecret 
                  withMerchantIdentifier:(NSString *)merchantIdentifier 

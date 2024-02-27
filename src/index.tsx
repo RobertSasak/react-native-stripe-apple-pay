@@ -17,6 +17,10 @@ const StripeApplePay = NativeModules.StripeApplePay
       }
     );
 
+export function deviceSupportsApplePay(): Promise<boolean> {
+  return StripeApplePay.deviceSupportsApplePay();
+}
+
 export function pay(
   publishableKey: String,
   clientSecret: String,

@@ -1,11 +1,18 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Button, Alert } from 'react-native';
-import { pay } from 'react-native-stripe-apple-pay';
+import { pay, deviceSupportsApplePay } from 'react-native-stripe-apple-pay';
 
 export default function App() {
   return (
     <View style={styles.container}>
+      <Button
+        onPress={async () => {
+          const isSupported = deviceSupportsApplePay();
+          Alert.alert('Supported' + isSupported ? 'Yes' : 'No');
+        }}
+        title="Device supports Apple Pay?"
+      />
       <Button
         onPress={async () => {
           // You need to get clientSecret from your server
